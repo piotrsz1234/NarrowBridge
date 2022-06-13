@@ -43,3 +43,12 @@ int Pop(Queue* queue) {
 	
 	return result;
 }
+
+void Debug(Queue* queue) {
+	Node* temp = queue->head;
+	while(temp != NULL) {
+		printf("%d ", temp->carNumber);
+		temp = temp->next;
+	}
+	printf("\n");
+}

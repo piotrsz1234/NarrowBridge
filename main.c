@@ -20,6 +20,7 @@ void CarThread(int num) {
         if(cars[num].status == IN_CITY_A) {
             cars[num].status = IN_QUEUE_TO_CITY_B;
             Add(queue, num);
+	        Debug(queue);
         } else if(cars[num].status == ON_BRIDGE_TO_CITY_B) {
             cars[num].status = IN_CITY_B;
             cars[num].onBridge = false;
@@ -31,13 +32,15 @@ void CarThread(int num) {
         } else if(cars[num].status == IN_CITY_B) {
             cars[num].status = IN_QUEUE_TO_CITY_A;
             Add(queue, num);
+	        Debug(queue);
         } else if(num == Top(queue)) {
             pthread_mutex_lock(&bridgeMutex);
 			Pop(queue);
+	        Debug(queue);
             cars[num].onBridge = true;
             cars[num].status = cars[num].status == IN_QUEUE_TO_CITY_A ? ON_BRIDGE_TO_CITY_A : ON_BRIDGE_TO_CITY_B;
         }
-        DisplayCurrentStatus(cars, n, queue, isInDebugMode);
+        //DisplayCurrentStatus(cars, n, queue, isInDebugMode);
 	    //sleep(RandomTime());
     }
 }

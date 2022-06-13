@@ -20,4 +20,6 @@ int Top(Queue* queue);
 
 int Pop(Queue* queue);
 
+void Debug(Queue* queue);
+
 #endif //NARROWBRIDGE_QUEUE_H
