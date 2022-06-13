@@ -1,7 +1,7 @@
-OBJ = main.o helper.o queue.o entities.o
+OBJ = main.o helper.o queue.o
 all: main
 main: $(OBJ)
-	gcc $(OBJ) -o main
+	gcc $(OBJ) -o main -pthread
 $(OBJ): entities.h queue.h helper.h
 .PHONY: clean
 clean:
