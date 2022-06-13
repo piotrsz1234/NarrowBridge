@@ -4,7 +4,6 @@
 
 void Init(Queue* queue) {
     queue->head = NULL;
-    queue->tail = NULL;
     queue->size = 0;
 }
 
@@ -12,13 +11,15 @@ void Add(Queue* queue, int carNumber) {
     Node* node = malloc(sizeof(Node));
     node->next = NULL;
     node->carNumber = carNumber;
-    if(queue->head != NULL) {
-        Node* temp = queue->tail;
-        queue->tail = node;
-        temp->next = node;
-    } else {
-        queue->head = queue->tail = node;
-    }
+    if(queue->head == NULL) {
+		queue->head = node;
+	} else {
+		Node* temp = queue->head;
+		while(temp->next != NULL) {
+			temp = temp->next;
+		}
+		temp->next = node;
+	}
     queue->size++;
 }
 
@@ -31,7 +32,6 @@ int Top(Queue* queue) {
 
 int Pop(Queue* queue) {
 	if(queue->head == NULL) {
-		queue->tail = NULL;
 		return -1;
 	}
     int result = Top(queue);

@@ -9,7 +9,6 @@ typedef struct Node_t {
 
 typedef struct Queue_t {
     Node* head;
-    Node* tail;
     int size;
 } Queue;
 
