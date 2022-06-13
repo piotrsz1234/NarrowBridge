@@ -5,6 +5,8 @@
 #include <pthread.h>
 #include <stdbool.h>
 #include <getopt.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 pthread_mutex_t bridgeMutex = PTHREAD_MUTEX_INITIALIZER;
 
@@ -15,7 +17,6 @@ int n = 0;
 
 void CarThread(int num) {
     while(true) {
-        sleep(RandomTime());
         if(cars[num].status == IN_CITY_A) {
             cars[num].status = IN_QUEUE_TO_CITY_B;
             Add(queue, num);
@@ -32,18 +33,18 @@ void CarThread(int num) {
             Add(queue, num);
         } else if(num == Top(queue)) {
             pthread_mutex_lock(&bridgeMutex);
-            Pop(queue);
+			Pop(queue);
             cars[num].onBridge = true;
             cars[num].status = cars[num].status == IN_QUEUE_TO_CITY_A ? ON_BRIDGE_TO_CITY_A : ON_BRIDGE_TO_CITY_B;
         }
-
-        DisplayCurrentStatus(cars, n, queue, false);
+        DisplayCurrentStatus(cars, n, queue, isInDebugMode);
+	    //sleep(RandomTime());
     }
 }
 
 bool ParseArguments(int argc, char** argv) {
     static struct option long_options[] = {
-        {"debug", no_argument, 0, 'debug'},
+        {"debug", no_argument, 0, 'd'},
         {"N",  required_argument, 0, 'N'},
         {0, 0, 0, 0}
     };
@@ -60,7 +61,7 @@ bool ParseArguments(int argc, char** argv) {
             case 'N':
                 n = atoi(optarg);
             break;
-             case 'debug':
+             case 'd':
                 isInDebugMode = true;
             break;
         }

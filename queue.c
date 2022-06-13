@@ -23,10 +23,17 @@ void Add(Queue* queue, int carNumber) {
 }
 
 int Top(Queue* queue) {
+	if(queue->head == NULL) {
+		return -1;
+	}
     return queue->head->carNumber;
 }
 
 int Pop(Queue* queue) {
+	if(queue->head == NULL) {
+		queue->tail = NULL;
+		return -1;
+	}
     int result = Top(queue);
 	Node* toRemove = queue->head;
 	

@@ -6,8 +6,8 @@
 
 void DisplayCurrentStatus(Car* cars, int n, Queue* queue, bool debug);
 
-bool AnyOnBridge(Car* cars, int n);
-
 int RandomTime();
+
+bool AnyOnBridge(Car* cars, int n);
 
 #endif //NARROWBRIDGE_HELPER_H
