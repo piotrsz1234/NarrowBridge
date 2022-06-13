@@ -58,13 +58,13 @@ void DisplayDetailedCurrentStatus(Car* cars, int n, Queue* queue) {
 }
 
 void DisplayCurrentStatus(Car* cars, int n, Queue* queue, bool debug) {
-	pthread_mutex_lock(&outputMutex);
-	if (debug) {
+	//pthread_mutex_lock(&outputMutex);
+	if (!debug) {
 		DisplaySimplifiedCurrentStatus(cars, n);
 	} else {
 		DisplayDetailedCurrentStatus(cars, n, queue);
 	}
-	pthread_mutex_unlock(&outputMutex);
+	//pthread_mutex_unlock(&outputMutex);
 }
 
 bool AnyOnBridge(Car* cars, int n) {

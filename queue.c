@@ -23,7 +23,7 @@ void Add(Queue* queue, int carNumber) {
 }
 
 int Top(Queue* queue) {
-    return queue->tail->carNumber;
+    return queue->head->carNumber;
 }
 
 int Pop(Queue* queue) {
