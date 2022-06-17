@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-pthread_mutex_t bridgeMutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t bridgeMutex;
 
 Car* cars;
 Queue* queue;
@@ -37,8 +37,8 @@ void CarThread(int num) {
             cars[num].onBridge = true;
             cars[num].status = cars[num].status == IN_QUEUE_TO_CITY_A ? ON_BRIDGE_TO_CITY_A : ON_BRIDGE_TO_CITY_B;
         }
-        DisplayCurrentStatus(cars, n, queue, isInDebugMode);
-	    //sleep(RandomTime());
+	    DisplayCurrentStatus(cars, n, queue, isInDebugMode);
+	    sleep(1);
     }
 }
 
@@ -71,23 +71,22 @@ bool ParseArguments(int argc, char** argv) {
 
 int main(int argc, char** argv) {
     srand(time(NULL));
-    
+	pthread_mutex_init(&bridgeMutex, NULL);
     ParseArguments(argc, argv);
 
     cars = malloc(sizeof(Car) * n);
     queue = malloc(sizeof(Queue));
 
     Init(queue);
-
     for(int i =0;i < n; i++) {
         cars[i].number = i;
         int r = rand() % 4;
-        if(i == 0) {
+        if(r == 0) {
             cars[i].status = IN_CITY_A;
-        } else if(i == 1) {
+        } else if(r == 1) {
             cars[i].status = IN_QUEUE_TO_CITY_B;
             Add(queue, i);
-        } else if(i == 2) {
+        } else if(r == 2) {
             cars[i].status = IN_QUEUE_TO_CITY_A;
             Add(queue, i);
         } else {
@@ -97,11 +96,13 @@ int main(int argc, char** argv) {
     
     pthread_t* threads = malloc(sizeof(pthread_t) * n);
     
-    for(int i=0;i<n;i++) {
+    for(int i=0; i<n; i++) {
         pthread_create(threads + i, NULL, CarThread, i);
     }
 
-    for(int i=0;i<n;i++) pthread_join(threads[i], NULL);
+    for(int i=0; i<n; i++) {
+		pthread_join(threads[i], NULL);
+	}
 
     return 0;
 }
