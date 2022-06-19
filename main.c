@@ -9,6 +9,7 @@
 #include <stdio.h>
 
 pthread_mutex_t bridgeMutex;
+pthread_mutex_t consoleMutex;
 
 Car* cars;
 Queue* queue;
@@ -38,7 +39,7 @@ void CarThread(int num) {
             cars[num].status = cars[num].status == IN_QUEUE_TO_CITY_A ? ON_BRIDGE_TO_CITY_A : ON_BRIDGE_TO_CITY_B;
         }
 	    DisplayCurrentStatus(cars, n, queue, isInDebugMode);
-	    sleep(1);
+	    usleep(RandomTime());
     }
 }
 
@@ -72,6 +73,7 @@ bool ParseArguments(int argc, char** argv) {
 int main(int argc, char** argv) {
     srand(time(NULL));
 	pthread_mutex_init(&bridgeMutex, NULL);
+	pthread_mutex_init(&consoleMutex, NULL);
     ParseArguments(argc, argv);
 
     cars = malloc(sizeof(Car) * n);

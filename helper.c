@@ -22,6 +22,13 @@ void DisplaySimplifiedCurrentStatus(Car* cars, int n) {
 			carsToB++;
 		}
 	}
+
+    int checkSum = (carsToA + carsInA + carsInB + carsToB) + (numberOfCarOnBridge >=0 ? 1 : 0);
+
+    if(checkSum != n) {
+        return;
+    }
+
 	char* carDirectionSymbol = directionOfCarOnBridge == ON_BRIDGE_TO_CITY_A ? "<<" : ">>";
 	char* message = malloc(sizeof(char) * 1000);
 	if (numberOfCarOnBridge != -1) {
@@ -71,7 +78,13 @@ void DisplayDetailedCurrentStatus(Car* cars, int n, Queue* queue) {
 	char* queueToA = GetQueueToCity(queue, IN_QUEUE_TO_CITY_A, cars);
 	char* carDirectionSymbol = directionOfCarOnBridge == ON_BRIDGE_TO_CITY_A ? "<<" : ">>";
 	char* message = malloc(sizeof(char) * 1000);
-	
+
+    int checkSum = (carsInA + carsInB) + (numberOfCarOnBridge >=0 ? 1 : 0) + queue->size;
+
+    if(checkSum != n) {
+        return;
+    }
+
 	if (numberOfCarOnBridge != -1) {
 		sprintf(message, "A-%d %s>>> [%s %d %s] <<<%s %d-B\n", carsInA, queueToB, carDirectionSymbol, numberOfCarOnBridge,
 		       carDirectionSymbol, queueToA, carsInB);
@@ -103,8 +116,7 @@ void DisplayCurrentStatus(Car* cars, int n, Queue* queue, bool debug) {
 }
 
 int RandomTime() {
-	return 1;
-	//return 200 + rand() % 501;
+	return 200 + rand() % 501;
 }
 
 bool AnyOnBridge(Car* cars, int n) {
