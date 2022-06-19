@@ -116,7 +116,7 @@ void DisplayCurrentStatus(Car* cars, int n, Queue* queue, bool debug) {
 }
 
 int RandomTime() {
-	return 200 + rand() % 501;
+	return (200 + rand() % 501) * 1000;
 }
 
 bool AnyOnBridge(Car* cars, int n) {

@@ -12,9 +12,7 @@ void Init(Queue* queue) {
 }
 
 void Add(Queue* queue, int carNumber) {
-	if(queue->isLocked == false) {
-		pthread_mutex_lock(&(queue->mutex));
-	}
+    pthread_mutex_lock(&(queue->mutex));
 	
     Node* node = malloc(sizeof(Node));
     node->next = NULL;
@@ -27,32 +25,24 @@ void Add(Queue* queue, int carNumber) {
         queue->head = queue->tail = node;
     }
     queue->size++;
-	
-	if(queue->isLocked == false) {
-		pthread_mutex_unlock(&(queue->mutex));
-	}
+
+    pthread_mutex_unlock(&(queue->mutex));
 }
 
 int Top(Queue* queue) {
-	if(!queue->isLocked) {
-		pthread_mutex_lock(&(queue->mutex));
-	}
+    pthread_mutex_lock(&(queue->mutex));
 	
 	if(queue->head == NULL) {
 		return -1;
 	}
-	
-	if(!queue->isLocked) {
-		pthread_mutex_unlock(&(queue->mutex));
-	}
+
+    pthread_mutex_unlock(&(queue->mutex));
 	
     return queue->head->carNumber;
 }
 
 void Pop(Queue* queue) {
-	if(!queue->isLocked) {
-		pthread_mutex_lock(&(queue->mutex));
-	}
+    pthread_mutex_lock(&(queue->mutex));
 	
 	if(queue->head == NULL) {
 		queue->tail = NULL;
@@ -64,10 +54,8 @@ void Pop(Queue* queue) {
 	queue->head = queue->head->next;
 	queue->size--;
 	free(toRemove);
-	
-	if(!queue->isLocked) {
-		pthread_mutex_unlock(&(queue->mutex));
-	}
+
+    pthread_mutex_unlock(&(queue->mutex));
 }
 
 void LockQueue(Queue* queue) {
