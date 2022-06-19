@@ -9,7 +9,6 @@
 #include <stdio.h>
 
 pthread_mutex_t bridgeMutex;
-pthread_mutex_t consoleMutex;
 
 Car* cars;
 Queue* queue;
@@ -73,7 +72,6 @@ bool ParseArguments(int argc, char** argv) {
 int main(int argc, char** argv) {
     srand(time(NULL));
 	pthread_mutex_init(&bridgeMutex, NULL);
-	pthread_mutex_init(&consoleMutex, NULL);
     ParseArguments(argc, argv);
 
     cars = malloc(sizeof(Car) * n);
@@ -98,8 +96,8 @@ int main(int argc, char** argv) {
     
     pthread_t* threads = malloc(sizeof(pthread_t) * n);
     
-    for(int i=0; i<n; i++) {
-        pthread_create(threads + i, NULL, CarThread, i);
+    for(long i=0; i<n; i++) {
+        pthread_create(threads + i, NULL, (void *(*)(void *)) CarThread, (void *) i);
     }
 
     for(int i=0; i<n; i++) {

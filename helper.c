@@ -41,10 +41,10 @@ void DisplaySimplifiedCurrentStatus(Car* cars, int n) {
 	if (lastMessage != NULL && strcmp(message, lastMessage) != 0) {
 		free(lastMessage);
 		lastMessage = message;
-		printf(message);
+		printf("%s", message);
 	} else if (lastMessage == NULL) {
 		lastMessage = message;
-		printf(message);
+		printf("%s", message);
 	}
 }
 
@@ -95,10 +95,10 @@ void DisplayDetailedCurrentStatus(Car* cars, int n, Queue* queue) {
 	if (lastMessage != NULL && strcmp(message, lastMessage) != 0) {
 		free(lastMessage);
 		lastMessage = message;
-		printf(message);
+		printf("%s", message);
 	} else if (lastMessage == NULL) {
 		lastMessage = message;
-		printf(message);
+		printf("%s", message);
 	}
 	
 	free(queueToA);
